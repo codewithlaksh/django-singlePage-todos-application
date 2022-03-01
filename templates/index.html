@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block body %}
+    <div class="container my-3">
+        <div id="message"></div>
+        <h2>Add your todo</h2>
+        <form id="addForm">
+            <div class="mb-3">
+                <label for="title" class="form-label">Todo Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter todo title">
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Todo Description</label>
+                <textarea class="form-control" id="desc" rows="3" placeholder="Enter todo description"></textarea>
+            </div>
+            <button class="btn btn-sm btn-dark" type="button" id="addBtn"><i class="fa fa-plus"></i> Add Todo</button>
+        </form>
+        <hr>
+        <h2>Your Todos</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                {% for todo in todos %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ todo.title }}</td>
+                    <td>{{ todo.description }}</td>
+                    <td>
+                        <button class="edit btn btn-sm btn-dark" id="{{ todo.todoId }}"><i class="fa fa-pencil"></i> Edit</button>
+                        <button class="delete btn btn-sm btn-dark" id="{{ todo.todoId }}"><i class="fa fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Todo</h5>
+                    <button type="button" class="btn-close modalCloseBtn"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="todoIdEdit">
+                        <div class="mb-3">
+                            <label for="titleEdit" class="form-label">Todo Title</label>
+                            <input type="text" class="form-control" id="titleEdit" placeholder="Enter todo title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descEdit" class="form-label">Todo Description</label>
+                            <textarea class="form-control" id="descEdit" rows="3" placeholder="Enter todo description"></textarea>
+                        </div>
+                        <button class="btn btn-sm btn-dark" type="button" id="updateBtn">Update Todo</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark modalCloseBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block js %}<script src="{% static 'js/script.js' %}"></script>{% endblock js %}
